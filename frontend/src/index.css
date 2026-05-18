@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark Theme Default */
+  --color-cyber-900: 10 15 24;      /* #0a0f18 */
+  --color-cyber-800: 17 24 39;      /* #111827 */
+  --color-cyber-700: 31 41 55;      /* #1f2937 */
+  --color-cyber-neon: 0 255 136;    /* #00ff88 */
+  --color-cyber-cyan: 0 240 255;    /* #00f0ff */
+  --color-cyber-purple: 176 0 255;  /* #b000ff */
+  --color-cyber-red: 255 0 60;      /* #ff003c */
+  --color-cyber-warning: 255 179 0; /* #ffb300 */
+  --color-text-main: 255 255 255;   /* white */
+  --color-text-muted: 156 163 175;  /* gray-400 */
+  --color-btn-text: 0 0 0;          /* black */
+  --color-black: 0 0 0;
+}
+
+body.light-theme {
+  /* Light Theme */
+  --color-cyber-900: 248 250 252;   /* slate-50 */
+  --color-cyber-800: 255 255 255;   /* white */
+  --color-cyber-700: 241 245 249;   /* slate-100 */
+  --color-cyber-neon: 5 150 105;    /* emerald-600 */
+  --color-cyber-cyan: 2 132 199;    /* sky-600 */
+  --color-cyber-purple: 126 34 206; /* purple-700 */
+  --color-cyber-red: 220 38 38;     /* red-600 */
+  --color-cyber-warning: 217 119 6; /* amber-600 */
+  --color-text-main: 15 23 42;      /* slate-900 */
+  --color-text-muted: 71 85 105;    /* slate-600 */
+  --color-btn-text: 255 255 255;    /* white */
+  --color-black: 241 245 249;       /* slate-100 */
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    cursor: none;
+    background-color: rgb(var(--color-cyber-900));
+    color: rgb(var(--color-text-main));
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Hide cursor on interactive elements too so the custom cursor takes over */
+  a, button, input, select, textarea {
+    cursor: none !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'JetBrains Mono', monospace;
+  }
+  
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0f18;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1f2937;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #374151;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Utilities */
+  .glass-panel {
+    @apply bg-cyber-800/80 backdrop-blur-md border border-gray-500/10 shadow-xl rounded-xl;
+  }
+  
+  .glass-panel-hover {
+    @apply transition-all duration-300 hover:bg-cyber-800 hover:border-cyber-neon/30 hover:shadow-[0_0_15px_rgba(var(--color-cyber-neon),0.1)];
+  }
+  
+  /* Neon Elements */
+  .text-neon {
+    @apply text-cyber-neon drop-shadow-[0_0_8px_rgba(var(--color-cyber-neon),0.8)];
+  }
+  
+  .border-neon {
+    @apply border-cyber-neon shadow-[0_0_10px_rgba(var(--color-cyber-neon),0.3)_inset];
+  }
+  
+  .btn-neon {
+    @apply relative overflow-hidden bg-transparent text-cyber-neon border border-cyber-neon px-6 py-2 rounded font-medium transition-all duration-300 hover:bg-cyber-neon hover:text-white hover:shadow-[0_0_20px_rgba(var(--color-cyber-neon),0.6)];
+  }
+  
+  .btn-primary {
+    @apply bg-cyber-neon px-6 py-2 rounded font-medium transition-all duration-300 hover:shadow-[0_0_15px_rgba(var(--color-cyber-neon),0.5)] disabled:opacity-50 disabled:cursor-not-allowed;
+    color: rgb(var(--color-btn-text));
+  }
+  
+  /* Form Elements */
+  .input-field {
+    @apply w-full bg-cyber-900/50 border border-gray-500/10 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyber-neon focus:ring-1 focus:ring-cyber-neon transition-all duration-300;
+  }
+}
+
+/* Particle Background Canvas styling */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 1;
+  pointer-events: none;
+}
+
+body.light-theme #particle-canvas {
+  opacity: 0.7; /* Bold particles clearly visible on light mode */
+}

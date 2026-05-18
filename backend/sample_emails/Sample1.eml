@@ -1,0 +1,21 @@
+From: "HDFC Bank Security" <security-update@hdfc-secure-login.com>
+To: victim@example.com
+Subject: Urgent: Your Account Will Be Suspended
+Date: Mon, 16 May 2026 10:15:00 +0530
+Message-ID: <12345@hdfc-secure-login.com>
+Return-Path: support@hdfc-secure-login.com
+Received: from 185.243.115.20
+
+Dear Customer,
+
+We detected unusual activity on your bank account.
+
+Your account will be suspended within 24 hours unless you verify your identity immediately.
+
+Click below to verify:
+http://hdfc-secure-login-verification.com/login
+
+Failure to verify may result in permanent suspension.
+
+Thank you,
+HDFC Security Team

@@ -1,0 +1,19 @@
+From: "GitHub" <noreply@github.com>
+To: developer@example.com
+Subject: New Login to Your GitHub Account
+Date: Wed, 18 May 2026 14:11:00 +0530
+Message-ID: <github123@github.com>
+Return-Path: noreply@github.com
+Received: from 140.82.112.4
+
+Hello Developer,
+
+We noticed a new login to your GitHub account from Chrome on Windows.
+
+If this was you, no further action is required.
+
+You can review your account activity here:
+https://github.com/settings/security-log
+
+Thank you,
+GitHub Security

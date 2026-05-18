@@ -1,0 +1,30 @@
+Return-Path: <security@paypal-update-alert.com>
+Received: from mail.paypal-update-alert.com (mail.paypal-update-alert.com [192.168.1.100])
+        by mx.google.com with ESMTP id 123456789;
+        Sat, 16 May 2026 10:00:00 -0700 (PDT)
+Authentication-Results: mx.google.com;
+       spf=fail (google.com: domain of security@paypal-update-alert.com does not designate 192.168.1.100 as permitted sender) smtp.mailfrom=security@paypal-update-alert.com;
+       dkim=fail header.i=@paypal-update-alert.com header.s=default header.b=abcdefgh;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=paypal.com
+From: "PayPal Security" <service@paypal.com>
+To: target@example.com
+Subject: URGENT: Your Account Has Been Suspended!
+Date: Sat, 16 May 2026 10:00:00 -0700
+Message-ID: <123456@paypal-update-alert.com>
+Reply-To: support@hacker-domain.net
+MIME-Version: 1.0
+Content-Type: text/html; charset="utf-8"
+
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Dear Customer,</h2>
+    <p>We have detected unauthorized activity on your PayPal account. As a security measure, we have temporarily suspended your account.</p>
+    <p><strong>Immediate action is required!</strong> You have 24 hours to verify your identity, otherwise your account will be permanently closed.</p>
+    <p>Please click the link below to verify your account and restore your access:</p>
+    <p><a href="http://bit.ly/3xY12zP">Verify Your Account Now</a></p>
+    <p>If the link doesn't work, copy and paste this URL into your browser: http://www.paypal-secure-login-update.tk/login</p>
+    <br>
+    <p>Thank you,<br>PayPal Security Team</p>
+</body>
+</html>
