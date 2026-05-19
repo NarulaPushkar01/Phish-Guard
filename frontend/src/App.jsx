@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -25,11 +25,13 @@ import ProfilePage from './pages/ProfilePage';
 
 // Layout component for authenticated and dashboard-style pages
 const AppLayout = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="flex h-screen overflow-hidden bg-transparent z-10 relative">
-      <Sidebar />
+      <Sidebar mobileOpen={sidebarOpen} setMobileOpen={setSidebarOpen} />
       <div className="flex flex-col flex-1 overflow-hidden">
-        <TopBar />
+        <TopBar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-transparent p-4 md:p-6 relative z-10">
           <Outlet />
         </main>

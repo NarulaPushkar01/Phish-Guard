@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const Sidebar = () => {
+const Sidebar = ({ mobileOpen, setMobileOpen }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { logout, user } = useAuth();
@@ -41,8 +41,8 @@ const Sidebar = () => {
   }, []);
 
   const handleLinkClick = () => {
-    if (window.innerWidth < 768) {
-      setCollapsed(true);
+    if (isMobile) {
+      setMobileOpen(false);
     }
   };
 
@@ -69,16 +69,16 @@ const Sidebar = () => {
     <>
       <motion.div 
         initial={false}
-        animate={{ width: isMobile ? (collapsed ? '0px' : '260px') : (collapsed ? '80px' : '260px') }}
+        animate={{ width: isMobile ? (mobileOpen ? '260px' : '0px') : (collapsed ? '80px' : '260px') }}
         className={`bg-cyber-800 border-r border-white/10 h-full flex flex-col z-50 md:z-20 transition-all duration-300 shadow-[2px_0_15px_rgba(0,0,0,0.5)] ${
           isMobile ? 'fixed left-0 top-0 bottom-0' : 'relative'
-        } ${isMobile && collapsed ? 'overflow-hidden invisible pointer-events-none border-r-0' : ''}`}
+        } ${isMobile && !mobileOpen ? 'overflow-hidden invisible pointer-events-none border-r-0' : ''}`}
       >
         {/* Logo Area */}
         <div className="h-20 flex items-center px-6 border-b border-white/10 relative">
           <Link to={user ? '/dashboard' : '/'} className="flex items-center">
             <ShieldAlert className="w-8 h-8 text-cyber-neon flex-shrink-0" />
-            {!collapsed && (
+            {(!collapsed || (isMobile && mobileOpen)) && (
               <motion.span 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -91,10 +91,10 @@ const Sidebar = () => {
           
           {/* Collapse Toggle */}
           <button 
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={() => isMobile ? setMobileOpen(false) : setCollapsed(!collapsed)}
             className="absolute -right-4 top-1/2 -translate-y-1/2 bg-cyber-700 border border-white/20 rounded-full p-1 text-gray-400 hover:text-cyber-neon transition-colors"
           >
-            {collapsed ? <Menu className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+            {(isMobile ? false : collapsed) ? <Menu className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
           </button>
         </div>
 
@@ -121,7 +121,7 @@ const Sidebar = () => {
                 )}
                 <item.icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-cyber-neon' : 'group-hover:text-cyber-cyan transition-colors'}`} />
                 
-                {(!collapsed || (isMobile && !collapsed)) && (
+                {(!collapsed || (isMobile && mobileOpen)) && (
                   <span className="ml-3 font-medium truncate">{item.label}</span>
                 )}
                 
@@ -141,7 +141,7 @@ const Sidebar = () => {
           {user ? (
             <>
               <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'} mb-4`}>
-                {!collapsed && (
+                {(!collapsed || (isMobile && mobileOpen)) && (
                   <div className="flex items-center overflow-hidden">
                     <div className="w-8 h-8 rounded-full bg-cyber-neon/20 border border-cyber-neon flex items-center justify-center text-cyber-neon font-bold flex-shrink-0">
                       {user.username?.charAt(0).toUpperCase() || 'A'}
@@ -158,7 +158,7 @@ const Sidebar = () => {
                 className={`w-full flex items-center px-3 py-2 text-red-400 hover:bg-red-900/20 hover:text-red-300 rounded-lg transition-colors ${collapsed ? 'justify-center' : ''}`}
               >
                 <LogOut className="w-5 h-5 flex-shrink-0" />
-                {!collapsed && <span className="ml-3 font-medium">Disconnect</span>}
+                {(!collapsed || (isMobile && mobileOpen)) && <span className="ml-3 font-medium">Disconnect</span>}
               </button>
             </>
           ) : (
@@ -167,26 +167,16 @@ const Sidebar = () => {
               className={`w-full flex items-center px-3 py-2 bg-cyber-neon/10 text-cyber-neon border border-cyber-neon/30 hover:bg-cyber-neon/20 rounded-lg transition-colors ${collapsed ? 'justify-center' : ''}`}
             >
               <User className="w-5 h-5 flex-shrink-0" />
-              {!collapsed && <span className="ml-3 font-medium">Sign In</span>}
+              {(!collapsed || (isMobile && mobileOpen)) && <span className="ml-3 font-medium">Sign In</span>}
             </Link>
           )}
         </div>
       </motion.div>
 
-      {/* Mobile Floating Menu Trigger */}
-      {isMobile && collapsed && (
-        <button 
-          onClick={() => setCollapsed(false)}
-          className="fixed left-4 top-5 z-40 bg-cyber-800/90 backdrop-blur-md border border-white/10 rounded-lg p-2.5 text-gray-400 hover:text-cyber-neon transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)] active:scale-95 animate-in fade-in zoom-in-95 duration-200"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
-      )}
-
       {/* Mobile Sidebar Backdrop Overlay */}
-      {isMobile && !collapsed && (
+      {isMobile && mobileOpen && (
         <div 
-          onClick={() => setCollapsed(true)} 
+          onClick={() => setMobileOpen(false)} 
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300 animate-in fade-in"
         />
       )}

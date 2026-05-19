@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Bell, Activity, Server, Shield, Sun, Moon } from 'lucide-react';
+import { Search, Bell, Activity, Server, Shield, Sun, Moon, Menu } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 
-const TopBar = () => {
+const TopBar = ({ toggleSidebar }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [sysStatus, setSysStatus] = useState('online');
   const { isLightMode, toggleTheme } = useTheme();
@@ -19,8 +19,17 @@ const TopBar = () => {
   return (
     <div className="h-20 bg-cyber-800/80 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-6 z-40 relative">
       
+      {/* Mobile Menu Button */}
+      <button
+        onClick={toggleSidebar}
+        className="md:hidden mr-4 p-2.5 bg-cyber-900/80 border border-white/10 rounded-lg text-gray-400 hover:text-cyber-neon active:scale-95 transition-all flex items-center justify-center flex-shrink-0"
+        title="Toggle Sidebar"
+      >
+        <Menu className="w-5 h-5" />
+      </button>
+
       {/* Global Search */}
-      <div className="flex-1 max-w-xl ml-12 md:ml-0">
+      <div className="flex-1 max-w-xl">
         <div className="relative group">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-gray-500 group-focus-within:text-cyber-cyan transition-colors" />
