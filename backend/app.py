@@ -24,7 +24,7 @@ def create_app():
     app.config.from_object(Config)
     
     # Initialize Extensions
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app)
     jwt = JWTManager(app)
     
     # Ensure upload directory exists
