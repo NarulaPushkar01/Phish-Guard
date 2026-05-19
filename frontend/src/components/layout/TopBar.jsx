@@ -20,7 +20,7 @@ const TopBar = () => {
     <div className="h-20 bg-cyber-800/80 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-6 z-40 relative">
       
       {/* Global Search */}
-      <div className="flex-1 max-w-xl">
+      <div className="flex-1 max-w-xl ml-12 md:ml-0">
         <div className="relative group">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-gray-500 group-focus-within:text-cyber-cyan transition-colors" />

@@ -30,7 +30,7 @@ const AppLayout = () => {
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
         <TopBar />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-transparent p-6 relative z-10">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-transparent p-4 md:p-6 relative z-10">
           <Outlet />
         </main>
       </div>

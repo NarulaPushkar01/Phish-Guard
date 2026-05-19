@@ -85,13 +85,13 @@ const AwarenessPage = () => {
         {/* Left Column: Quiz */}
         <div className="lg:col-span-2 space-y-6">
           <GlassCard className="border-t-2 border-t-cyber-neon">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <HelpCircle className="text-cyber-neon" />
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                <HelpCircle className="text-cyber-neon flex-shrink-0" />
                 Interactive Scam Quiz
               </h2>
               {currentQuestion < quizQuestions.length && (
-                <span className="text-sm font-mono text-gray-400">
+                <span className="text-xs sm:text-sm font-mono text-gray-400 self-start sm:self-auto bg-cyber-900/60 px-2.5 py-1 rounded border border-white/5">
                   Question {currentQuestion + 1} of {quizQuestions.length}
                 </span>
               )}
@@ -99,7 +99,7 @@ const AwarenessPage = () => {
 
             {currentQuestion < quizQuestions.length ? (
               <div className="space-y-6">
-                <p className="text-lg text-white font-medium bg-cyber-900/50 p-4 rounded border border-white/5">
+                <p className="text-sm sm:text-base md:text-lg text-white font-medium bg-cyber-900/50 p-3 sm:p-4 rounded border border-white/5 leading-relaxed">
                   {quizQuestions[currentQuestion].question}
                 </p>
 
@@ -109,7 +109,7 @@ const AwarenessPage = () => {
                       key={idx}
                       onClick={() => !showResult && handleAnswer(idx)}
                       disabled={showResult}
-                      className={`w-full text-left p-4 rounded border transition-all ${
+                      className={`w-full text-left p-3 sm:p-4 rounded border text-sm sm:text-base transition-all ${
                         showResult
                           ? idx === quizQuestions[currentQuestion].correct
                             ? 'bg-green-500/20 border-green-500/50 text-green-100'
@@ -119,10 +119,10 @@ const AwarenessPage = () => {
                           : 'bg-cyber-800/40 border-white/10 text-gray-300 hover:bg-cyber-800 hover:border-cyber-cyan/50'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <span>{option}</span>
-                        {showResult && idx === quizQuestions[currentQuestion].correct && <CheckCircle className="text-green-500 w-5 h-5" />}
-                        {showResult && idx === selectedAnswer && idx !== quizQuestions[currentQuestion].correct && <XCircle className="text-red-500 w-5 h-5" />}
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="leading-snug">{option}</span>
+                        {showResult && idx === quizQuestions[currentQuestion].correct && <CheckCircle className="text-green-500 w-5 h-5 flex-shrink-0" />}
+                        {showResult && idx === selectedAnswer && idx !== quizQuestions[currentQuestion].correct && <XCircle className="text-red-500 w-5 h-5 flex-shrink-0" />}
                       </div>
                     </button>
                   ))}
