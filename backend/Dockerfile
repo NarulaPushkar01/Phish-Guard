@@ -25,8 +25,8 @@ COPY . .
 # Create necessary directories
 RUN mkdir -p uploads generated_reports
 
-# Expose port
-EXPOSE 5000
+# Expose port (Render uses dynamic $PORT)
+EXPOSE 10000
 
-# Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]
+# Run gunicorn - uses Render's dynamic PORT env var
+CMD sh -c "gunicorn --bind 0.0.0.0:${PORT:-10000} --workers 4 --timeout 120 app:app"

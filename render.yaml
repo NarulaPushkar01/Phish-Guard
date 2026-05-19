@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: phishguard-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGO_URI
+        sync: false   # You will set this manually in the Render dashboard
+      - key: JWT_SECRET_KEY
+        generateValue: true   # Render auto-generates a secure random value
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: "False"
+      - key: UPLOAD_FOLDER
+        value: uploads
+      - key: MAX_CONTENT_LENGTH
+        value: "16777216"
+      - key: VIRUSTOTAL_API_KEY
+        sync: false   # Optional - set in dashboard if you have one
+      - key: ABUSEIPDB_API_KEY
+        sync: false   # Optional - set in dashboard if you have one
+      - key: URLSCAN_API_KEY
+        sync: false   # Optional - set in dashboard if you have one
