@@ -72,7 +72,7 @@ const Sidebar = () => {
         animate={{ width: isMobile ? (collapsed ? '0px' : '260px') : (collapsed ? '80px' : '260px') }}
         className={`bg-cyber-800 border-r border-white/10 h-full flex flex-col z-50 md:z-20 transition-all duration-300 shadow-[2px_0_15px_rgba(0,0,0,0.5)] ${
           isMobile ? 'fixed left-0 top-0 bottom-0' : 'relative'
-        } ${isMobile && collapsed ? 'border-r-0' : ''}`}
+        } ${isMobile && collapsed ? 'overflow-hidden invisible pointer-events-none border-r-0' : ''}`}
       >
         {/* Logo Area */}
         <div className="h-20 flex items-center px-6 border-b border-white/10 relative">
