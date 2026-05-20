@@ -18,7 +18,7 @@ class AuthController:
     def register(data):
         """Register a new user."""
         username = data.get('username', '').strip()
-        email = data.get('email', '').strip()
+        email = data.get('email', '').strip().lower()
         password = data.get('password', '')
         
         # Validation
@@ -73,7 +73,7 @@ class AuthController:
     @staticmethod
     def login(data):
         """Authenticate user and return JWT."""
-        email = data.get('email', '').strip()
+        email = data.get('email', '').strip().lower()
         password = data.get('password', '')
         
         if not email or not password:
