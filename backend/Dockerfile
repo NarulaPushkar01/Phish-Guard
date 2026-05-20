@@ -29,4 +29,4 @@ RUN mkdir -p uploads generated_reports
 EXPOSE 10000
 
 # Run gunicorn - uses Render's dynamic PORT env var
-CMD sh -c "gunicorn --bind 0.0.0.0:${PORT:-10000} --workers 4 --timeout 120 app:app"
+CMD sh -c "gunicorn --bind 0.0.0.0:${PORT:-10000} --workers 4 --timeout 120 wsgi:app"
