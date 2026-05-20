@@ -6,6 +6,9 @@ Initializes Flask app, configures extensions, and registers blueprints.
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_talisman import Talisman
 from config import Config
 from database.connection import init_db, close_db
 from utils.logger import logger
@@ -24,8 +27,22 @@ def create_app():
     app.config.from_object(Config)
     
     # Initialize Extensions
-    CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": app.config.get('ALLOWED_ORIGINS', "*")}})
     jwt = JWTManager(app)
+    
+    # Initialize Security Middleware
+    # Use Talisman for HTTP security headers (disable force_https for dev compatibility)
+    Talisman(app, force_https=False, content_security_policy=None)
+    
+    # Initialize Rate Limiter
+    limiter = Limiter(
+        get_remote_address,
+        app=app,
+        default_limits=[app.config.get('RATE_LIMIT_DEFAULT', "100 per hour")],
+        storage_uri="memory://"
+    )
+    # Attach to app so blueprints could theoretically access it
+    app.limiter = limiter
     
     # Ensure upload directory exists
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
