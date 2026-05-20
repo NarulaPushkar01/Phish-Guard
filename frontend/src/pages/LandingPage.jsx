@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Lock, Search, FileText, ArrowRight, Activity, Terminal, Globe, Sun, Moon } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Shield, Lock, Search, FileText, ArrowRight, Activity, Terminal, Globe, Sun, Moon, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
 const FeatureCard = ({ icon: Icon, title, desc, delay }) => (
@@ -22,6 +22,14 @@ const FeatureCard = ({ icon: Icon, title, desc, delay }) => (
 
 const LandingPage = () => {
   const { isLightMode, toggleTheme } = useTheme();
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-cyber-900 text-white selection:bg-cyber-neon selection:text-black relative overflow-hidden">
@@ -33,29 +41,98 @@ const LandingPage = () => {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgbZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNNjAgMEwwIDYwdjYwaDYwVjB6bS0zMCAwTDAgMzB2MzBoMzBWMHoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvZz48L3N2Zz4=')] opacity-20"></div>
       </div>
 
-      {/* Nav */}
-      <nav className="relative z-10 container mx-auto px-6 py-6 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <Shield className="text-cyber-neon w-8 h-8" />
-          <span className="font-mono font-bold text-2xl tracking-wider">PHISH<span className="text-cyber-neon">GUARD</span></span>
-        </div>
-        <div className="flex items-center gap-3">
-          {/* Theme Toggle */}
-          <button 
-            onClick={toggleTheme}
-            className="p-2 rounded-full text-gray-300 hover:text-cyber-neon hover:bg-cyber-700/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyber-cyan border border-white/10"
-            title={isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-            id="landing-theme-toggle"
-          >
-            {isLightMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-          </button>
-          <Link to="/login" className="px-6 py-2 text-gray-300 hover:text-white transition-colors font-medium">Login</Link>
-          <Link to="/register" className="btn-neon hidden sm:inline-flex">Get Started</Link>
-        </div>
-      </nav>
+      {/* ── Sticky Navbar ── */}
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-cyber-900/95 backdrop-blur-md border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]'
+          : 'bg-cyber-900/70 backdrop-blur-sm border-b border-transparent'
+      }`}>
+        <nav className="container mx-auto px-6 h-16 flex items-center justify-between">
+          
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+            <Shield className="text-cyber-neon w-7 h-7" />
+            <span className="font-mono font-bold text-xl tracking-wider text-white">
+              PHISH<span className="text-cyber-neon">GUARD</span>
+            </span>
+          </Link>
+
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center gap-1">
+            <Link to="/awareness" className="px-4 py-2 text-gray-400 hover:text-cyber-neon transition-colors text-sm font-medium rounded-lg hover:bg-white/5">
+              Awareness Hub
+            </Link>
+            <Link to="/learn" className="px-4 py-2 text-gray-400 hover:text-cyber-neon transition-colors text-sm font-medium rounded-lg hover:bg-white/5">
+              Learn Hub
+            </Link>
+          </div>
+
+          {/* Desktop Right Actions */}
+          <div className="hidden md:flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg text-gray-400 hover:text-cyber-neon hover:bg-white/5 transition-all"
+              title={isLightMode ? 'Dark Mode' : 'Light Mode'}
+            >
+              {isLightMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+            </button>
+            <Link to="/login" className="px-4 py-2 text-gray-300 hover:text-white transition-colors text-sm font-medium">
+              Login
+            </Link>
+            <Link to="/register" className="px-4 py-2 bg-cyber-neon text-black text-sm font-bold rounded-lg hover:bg-[#00e077] transition-all hover:shadow-[0_0_15px_rgba(0,255,136,0.4)]">
+              Get Started
+            </Link>
+          </div>
+
+          {/* Mobile: theme + hamburger */}
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg text-gray-400 hover:text-cyber-neon transition-all"
+            >
+              {isLightMode ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-lg text-gray-400 hover:text-cyber-neon transition-all"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+        </nav>
+
+        {/* Mobile Dropdown Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-cyber-900/98 border-t border-white/10 overflow-hidden"
+            >
+              <div className="container mx-auto px-6 py-4 flex flex-col gap-2">
+                <Link to="/awareness" onClick={() => setMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:text-cyber-neon hover:bg-white/5 rounded-lg transition-all font-medium">
+                  Awareness Hub
+                </Link>
+                <Link to="/learn" onClick={() => setMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:text-cyber-neon hover:bg-white/5 rounded-lg transition-all font-medium">
+                  Learn Hub
+                </Link>
+                <div className="border-t border-white/10 pt-2 mt-1 flex flex-col gap-2">
+                  <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all font-medium">
+                    Login
+                  </Link>
+                  <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="px-4 py-3 bg-cyber-neon text-black text-center font-bold rounded-lg hover:bg-[#00e077] transition-all">
+                    Get Started →
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
 
       {/* Hero Section */}
-      <main className="relative z-10 container mx-auto px-6 pt-20 pb-32 flex flex-col items-center text-center">
+      <main className="relative z-10 container mx-auto px-6 pt-36 pb-32 flex flex-col items-center text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
