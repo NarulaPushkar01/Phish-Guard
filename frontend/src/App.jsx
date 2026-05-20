@@ -40,6 +40,21 @@ const AppLayout = () => {
   );
 };
 
+// Component that clears auth state then renders children
+// Used so visiting /login while logged in logs you out first
+const GuestRoute = ({ children }) => {
+  const { user, logout } = useAuth();
+  
+  React.useEffect(() => {
+    if (user) {
+      logout();
+    }
+  }, []);
+
+  // While user state is being cleared, render children directly
+  return children;
+};
+
 const AppRoutes = () => {
   const { user } = useAuth();
 
@@ -47,8 +62,8 @@ const AppRoutes = () => {
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <LoginPage />} />
-      <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <RegisterPage />} />
+      <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
+      <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} />
       {/* Dashboard Layout Routes */}
       <Route element={<AppLayout />}>
         {/* Public dashboard routes */}
